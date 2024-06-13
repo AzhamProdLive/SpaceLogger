@@ -4,7 +4,7 @@
 </a>
 </center>
 
-Logger is a powerful [Discord](https://discordapp.com) bot meant to give staff members oversight over the various actions taking place in their server. Come talk about me with my creator at [Logger's Lounge](https://discord.gg/ed7Gaa3).
+Logger is a powerful [Discord](https://discordapp.com) bot meant to give staff members oversight over the various actions taking place in their server.
 
 ## Installation
 
@@ -34,6 +34,5 @@ Pull requests are welcome as long as it follows the following guidelines:
 1. Is your idea really one that a large group of moderators would like?
 2. Is your idea scalable?
 3. Will your idea cause the bot to hit it's global ratelimit?
-4. Have you proposed it to *piero#5432* in my [support server?](https://discord.gg/ed7Gaa3)
 
 If you have done all of the above steps, then open a pull request and I will review it. Style guide and testing will be implemented in a later update.
