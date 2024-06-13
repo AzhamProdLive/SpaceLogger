@@ -3,7 +3,7 @@ const cluster = require('cluster')
 const Sentry = require('@sentry/node')
 const redisLock = require('../db/interfaces/redis/redislock')
 const indexCommands = require('../miscellaneous/commandIndexer')
-const cacheGuildInfo = require('./utils/cacheGuildSettings')
+//const cacheGuildInfo = require('./utils/cacheGuildSettings')
 const addBotListeners = require('./utils/addbotlisteners')
 
 require('dotenv').config()
@@ -27,9 +27,7 @@ function connect () {
       })
     })
   }).catch(e => {
-    setTimeout(() => {
-      connect()
-    }, 10000)
+    setTimeout(() => connect(), 10000)
   }) // throw out not being able to obtain a lock.
 }
 
@@ -51,7 +49,7 @@ async function init () {
         domain: process.env.TWILIGHT_HOST || 'localhost',
         baseURL: '/api/v9',
         port: process.env.TWILIGHT_PORT || 8080,
-        requestTimeout: 1000 * 60 * 30 // 1h time
+        requestTimeout: 1_800_000 // 1h time
       } : {})
     },
     restMode: true,
@@ -64,7 +62,7 @@ async function init () {
       'guildInvites',
       'guildMembers',
       'guildMessages',
-      'guildBans'
+      'guildBans',
     ],
     defaultImageFormat: 'png',
     ...(process.env.USE_MAX_CONCURRENCY === 'true' ? { useMaxConcurrency: true } : {})
@@ -83,7 +81,7 @@ async function init () {
   }
 
   indexCommands() // yes, block the thread while we read commands.
-  await cacheGuildInfo()
+  //await cacheGuildInfo()
 
   addBotListeners()
 
