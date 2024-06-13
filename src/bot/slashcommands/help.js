@@ -1,4 +1,4 @@
-const Eris = require('eris')
+const { Constants } = require('eris')
 const { EMBED_COLORS, ALL_EVENTS, EVENT_HELP } = require('../utils/constants')
 const { getEmbedFooter, getAuthorField } = require('../utils/embeds')
 
@@ -30,7 +30,7 @@ module.exports = {
           }],
           footer: getEmbedFooter(global.bot.user)
         }],
-        flags: Eris.Constants.MessageFlags.EPHEMERAL
+        flags: Constants.MessageFlags.EPHEMERAL
       }).catch(() => {})
     } else if (interaction.data.options?.find(o => o.name === 'guide')) {
       interaction.createMessage({
@@ -53,7 +53,7 @@ module.exports = {
             url: interaction.member.user.dynamicAvatarURL(null, 64)
           }
         }],
-        flags: Eris.Constants.MessageFlags.EPHEMERAL
+        flags: Constants.MessageFlags.EPHEMERAL
       }).catch(() => {})
     } else if (interaction.data.options?.find(o => o.name === 'event')) {
       const eventName = interaction.data.options?.find(o => o.name === 'event').value
@@ -68,7 +68,7 @@ module.exports = {
           author: getAuthorField(interaction.member.user),
           description: `__**Description**__\n${EVENT_HELP[eventName]}\n\n*Not what you're looking for? Feel free to contact me*.`
         }],
-        flags: Eris.Constants.MessageFlags.EPHEMERAL
+        flags: Constants.MessageFlags.EPHEMERAL
       })
     }
   }

@@ -1,3 +1,5 @@
+const { displayUser } = require('../utils/constants')
+
 module.exports = {
   name: 'serverinfo',
   func: async interaction => {
@@ -26,7 +28,7 @@ module.exports = {
         value: `${guild.verificationLevel}`
       }, {
         name: 'Owner',
-        value: `${owner ? `**${owner.username}#${owner.discriminator}** ` : ''}(${guild.ownerID})`
+        value: `${owner ? `**${displayUser(owner)}** ` : ''}(${guild.ownerID})`
       }, {
         name: 'Features',
         value: guild.features.length !== 0 ? guild.features.join(', ') : 'No Guild Features'
