@@ -3,8 +3,9 @@ const format = require('pg-format')
 const pool = require('./clients/postgres')
 const aes = require('./aes')
 const batch = []
-global.timesSubmitted = 0
-global.totalMessagesSubmitted = 0
+// Change these out to use let instead of populating 'global' with something that is only used in this file.
+let timesSubmitted = 0
+let totalMessagesSubmitted = 0
 
 function getBatchSize () {
   return +process.env.MESSAGE_BATCH_SIZE || 1000
@@ -23,9 +24,9 @@ async function submitBatch (batchSize) {
   const poolClient = await pool.getPostgresClient()
   await poolClient.query(format('INSERT INTO messages (id, author_id, content, attachment_b64, ts) VALUES %L ON CONFLICT DO NOTHING', toSubmit))
   poolClient.release()
-  global.timesSubmitted += 1
-  global.totalMessagesSubmitted += batchSize
-  const msg = `Submitted ${toSubmit.length} messages within batch #${global.timesSubmitted} (${global.totalMessagesSubmitted} total).`;
+  timesSubmitted += 1
+  totalMessagesSubmitted += batchSize
+  const msg = `Submitted ${toSubmit.length} messages within batch #${timesSubmitted} (${totalMessagesSubmitted} total).`;
   global.webhook.generic(msg)
   return toSubmit.length
 }
@@ -59,7 +60,7 @@ function updateMessage (messageID, changedAttrs) {
       global.logger.warn(msg)
       global.webhook.warn(msg)
     }
-    break
+    break //The "for" statement doesn't loop through the rest of the array if the message is found.
   }
 }
 

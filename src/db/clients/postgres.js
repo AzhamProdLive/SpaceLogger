@@ -1,4 +1,4 @@
-const { Client, Pool } = require('pg') // PREREQUISITE: Have postgres installed and your user can connect
+const { Pool } = require('pg') // PREREQUISITE: Have postgres installed and your user can connect
 
 require('dotenv').config()
 const pool = new Pool({
@@ -33,7 +33,7 @@ module.exports = {
     // all calls of this must function .release() on the return value
     try {
       const transactionClient = await pool.connect()
-      return transactionClient
+      return transactionClient //This local variable is redundant, but it's here for clarity.
     } catch (e) {
       throw new Error(e)
     }
