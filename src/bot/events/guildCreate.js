@@ -1,4 +1,4 @@
-const createGuild = require('../../db/interfaces/postgres/create').createGuild
+const { createGuild } = require('../../db/interfaces/postgres/create')
 const cacheGuild = require('../utils/cacheGuild')
 const statAggregator = require('../modules/statAggregator')
 
