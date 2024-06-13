@@ -1,3 +1,5 @@
+const { displayUser } = require('../utils/constants')
+
 module.exports = {
   func: async message => {
     await message.channel.createMessage({
@@ -8,19 +10,19 @@ module.exports = {
         timestamp: new Date(),
         footer: {
           icon_url: global.bot.user.avatarURL,
-          text: `${global.bot.user.username}#${global.bot.user.discriminator}`
+          text: displayUser(global.bot.user)
         },
         thumbnail: {
           url: global.bot.user.avatarURL
         },
         author: {
-          name: `${message.author.username}#${message.author.discriminator}`,
+          name: displayUser(message.author),
           icon_url: message.author.avatarURL
         },
         fields: [
           {
             name: 'Technical Details',
-            value: `${global.bot.user.username} is written in JavaScript utilizing the Node.js runtime. It uses the [eris](https://github.com/abalabahaha/eris) library to interact with the Discord API. PostgreSQL and Redis are used. The original code OSS is available at https://github.com/curtisf/logger`
+            value: `${displayUser(global.bot.user)} is written in JavaScript utilizing the Node.js runtime. It uses the [eris](https://github.com/abalabahaha/eris) library to interact with the Discord API. PostgreSQL and Redis are used. The original code OSS is available at https://github.com/curtisf/logger`
           },
           {
             name: 'The Author',
