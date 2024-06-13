@@ -1,27 +1,22 @@
-<center><img src="https://cdn.discordapp.com/attachments/349356606883889152/616414555639382016/Logger.png" />
-<a href="https://discordbots.org/bot/298822483060981760" >
-  <img src="https://discordbots.org/api/widget/298822483060981760.svg" alt="Logger" />
-</a>
-</center>
+SpaceLogger v1 is a powerful [Discord](https://discordapp.com) bot forked from LoggerV3 and Tizzy Logger's, which is meant to give staff members oversight over the various actions taking place in their server.
+- This fork includes some improvements and features the main repo doesn't have.
+> - Image/File logs for `messageUpdate`, `messageDelete`, `messageBulkDelete` events.
 
-Logger is a powerful [Discord](https://discordapp.com) bot meant to give staff members oversight over the various actions taking place in their server.
+## Installation (PLEASE CHECK THE MAIN REPO FOR THE INSTRUCTIONS, AS THIS REPO HAS BEEN MODIFIED TO FIT MY OWN NEEDS)
 
-## Installation
-
-You are mostly on your own selfhosting this version. Required applications:
-- PostgreSQL 11
-- Redis
-- NodeJS 14+ (14.5.0)
+- [PostgreSQL](https://www.postgresql.org/download/)
+- [Redis](https://redis.io/downloads/)
+- [NodeJS](https://nodejs.org/en/download)
 
 1. Setup Postgres and add a superuser (default user works)
 2. Clone bot repo and enter the created folder
 3. Copy .env.example into .env
-4. Fill out **all** fields in it (even Sentry unless you hotpatch it out)
+4. Fill out **all** of the **required** fields in `.env`
 5. `npm install`
-6. `node src/miscellaneous/generateDB.js`
-7. Set `ENABLE_TEXT_COMMANDS="true"` in .env
-8. `node index.js`
-9. Use your prefix to set the bot's commands. If yours is %, then you'd do `%setcmd global` to globally set commands, and `%setcmd guild` to quickly set server-specific slash commands
+6. `npm run genDB`
+7. `node index.js`
+8. Use your prefix to set the bot's commands. If yours is %, then you'd do `%setcmd global` to globally set commands, and `%setcmd guild` to quickly set server-specific slash commands
+> NOTE: You'll need to restart your Discord client in order for them to show up!
 
 ## Usage
 
