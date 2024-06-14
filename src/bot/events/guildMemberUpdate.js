@@ -62,7 +62,7 @@ module.exports = {
       guildMemberUpdate.eventName = 'guildMemberVerify'
       guildMemberUpdate.embeds[0].description = `${member.mention} (${displayUser(member)}: \`${member.id}\`) has verified.`
       guildMemberUpdate.embeds[0].author = {
-        name: `${member.username}#${member.discriminator}`,
+        name: `${displayUser(member)}`,
         icon_url: member.avatarURL
       }
       guildMemberUpdate.embeds[0].color = 0x1ced9a
