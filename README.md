@@ -1,3 +1,7 @@
+# /!\ THIS BRANCH IS NOT MEANT TO BE USED AS IS, THIS IS AN UNSTABLE BRANCH USED FOR NEW FEATURES AND DEVELOPMENT TOWARD SPACELOGGER
+
+---
+
 SpaceLogger v1 is a powerful [Discord](https://discordapp.com) bot forked from LoggerV3 and Tizzy Logger's, which is meant to give staff members oversight over the various actions taking place in their server.
 - This fork includes some improvements and features the main repo doesn't have.
 > - Image/File logs for `messageUpdate`, `messageDelete`, `messageBulkDelete` events.

@@ -4,7 +4,7 @@ const { NewsThreadChannel, PrivateThreadChannel, PublicThreadChannel, ComponentI
 const { EMBED_COLORS, displayUser } = require('../utils/constants')
 const { getEmbedFooter, getAuthorField } = require('../utils/embeds')
 
-let slashCommands = path.readdirSync(resolve('src', 'bot', 'slashcommands')).map(filename => {
+let slashCommands = readdirSync(resolve('src', 'bot', 'slashcommands')).map(filename => {
   return require(resolve('src', 'bot', 'slashcommands', filename))
 })
 

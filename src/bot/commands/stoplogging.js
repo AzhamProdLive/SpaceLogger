@@ -1,6 +1,6 @@
-const { clearEventByID, setEventsLogId }  = require('../../db/interfaces/postgres/update')
+const { clearEventByID, setEventsLogId } = require('../../db/interfaces/postgres/update')
+const { displayUser, ALL_EVENTS: eventList } = require('../utils/constants')
 const cacheGuild = require('../utils/cacheGuild')
-const { displayUser, ALL_EVENTS: eventList } = require('../utils/constants').
 
 module.exports = {
   func: async (message, suffix) => {

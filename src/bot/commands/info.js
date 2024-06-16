@@ -22,7 +22,7 @@ module.exports = {
         fields: [
           {
             name: 'Technical Details',
-            value: `${displayUser(global.bot.user)} is written in JavaScript utilizing the Node.js runtime. It uses the [eris](https://github.com/abalabahaha/eris) library to interact with the Discord API. PostgreSQL and Redis are used. The original code OSS is available at https://github.com/curtisf/logger`
+            value: `${displayUser(global.bot.user)} is written in JavaScript utilizing the Node.js runtime. It uses the [eris](https://github.com/abalabahaha/eris) library to interact with the Discord API. PostgreSQL and Redis are used. The code OSS is available at https://github.com/azhamprodlive/spacelogger`
           },
           {
             name: 'The Author',

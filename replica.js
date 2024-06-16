@@ -1,5 +1,5 @@
 const cluster = require('cluster')
-const resolve = require('path')
+const { resolve } = require('path')
 
 async function assignWorkerInfo (info) {
   if (info.type !== 'startup') {

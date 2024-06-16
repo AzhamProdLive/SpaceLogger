@@ -52,17 +52,19 @@ function updateMessage (messageID, changedAttrs) {
   for (let i = 0; i < batch.length; i++) {
     if (batch[i][0] === messageID) {
       if ('content' in changedAttrs)
-        batch[i][2] = aes.encrypt(changedAttrs.content || 'None')}
-    else if ('imageUrls' in changedAttrs)
-      batch[i][3] = changedAttrs.imageUrls.map(url => aes.encrypt(Buffer.from(url).toString("base64url"))).join("|")
-    else {
-      const msg = `updateMessage called with unsupported changedAttrs: ${JSON.stringify(changedAttrs)}`
-      global.logger.warn(msg)
-      global.webhook.warn(msg)
+        batch[i][2] = aes.encrypt(changedAttrs.content || 'None')
+      else if ('imageUrls' in changedAttrs)
+        batch[i][3] = changedAttrs.imageUrls.map(url => aes.encrypt(Buffer.from(url).toString("base64url"))).join("|")
+      else {
+        const msg = `updateMessage called with unsupported changedAttrs: ${JSON.stringify(changedAttrs)}`
+        global.logger.warn(msg)
+        global.webhook.warn(msg);
+      }
+      break
     }
-    break //The "for" statement doesn't loop through the rest of the array if the message is found.
   }
 }
+
 
 exports.getMessage = getMessage
 exports.getMessageCount = getMessageCount
