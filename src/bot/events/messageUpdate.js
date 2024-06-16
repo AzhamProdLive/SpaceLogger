@@ -114,7 +114,7 @@ module.exports = {
         }
       }
 
-      const changedAttrs = {}
+      let changedAttrs = {}
       if (newMessage.content !== oldMessage.content) { changedAttrs.content = newMessage.content }
       if (newUrls.length) { changedAttrs.imageUrls = newUrls }
       await updateMessageByID(newMessage.id, changedAttrs)
