@@ -32,7 +32,7 @@ module.exports = {
             name: `${displayUser(newMessage.author)} ${member && member.nick ? `(${member.nick})` : ''}`,
             icon_url: newMessage.author.avatarURL
           },
-          description: `**${displayUser(newMessage.author)} ${member && member.nick ? `(${member.nick})` : ''} updated their message in: ${newMessage.channel.name}.`,
+          description: `**${displayUser(newMessage.author)} ${member && member.nick ? `(${member.nick})` : ''} updated their message in: ${newMessage.channel.name}.**`,
           fields: [
             {
               name: `${newMessage.channel.type === 10 || newMessage.channel.type === 11 || newMessage.channel.type === 12 ? 'Thread' : 'Channel'}`,
