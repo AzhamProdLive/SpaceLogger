@@ -1,3 +1,7 @@
+## SpaceLogger, the Discord bot that logs everything that happens in your server, with a spice of Space.
+
+---
+
 SpaceLogger v2 is a powerful [Discord](https://discordapp.com) bot forked from LoggerV3 and Tizzy Logger's, which is meant to give staff members oversight over the various actions taking place in their server.
 - This fork includes some improvements and features the main repo doesn't have.
 > - Image/File logs for `messageUpdate`, `messageDelete`, `messageBulkDelete` events.
