@@ -1,41 +1,40 @@
-const getMessagesByIds = require('../../db/interfaces/postgres/read').getMessagesByIds
+const sa = require('superagent')
 const { getMessage } = require('../../db/messageBatcher')
+const getMessagesByIds = require('../../db/interfaces/postgres/read').getMessagesByIds
 const send = require('../modules/webhooksender')
 const { displayUser } = require('../utils/constants')
-const { createHaste } = require('../utils/createHaste')
-const sa = require('superagent')
 
-module.exports = {
-  name: 'messageDeleteBulk',
-  type: 'on',
-  handle: async deletedMessages => {
-    if (deletedMessages.length === 0) return // TODO: TEST!
-    if (!process.env.PASTE_SITE_ROOT_URL) {
-      if (!deletedMessages[0].guildId) return;
+  module.exports = {
+    name: 'messageDeleteBulk',
+    type: 'on',
+    handle: async deletedMessages => {
+      if (deletedMessages.length === 0) return // TODO: TEST!
 
-      return send({
-        guildID: deletedMessages[0].guildId,
-        eventName: 'messageDeleteBulk',
-        embeds: [{
-          description: `${deletedMessages.length} messages were bulk deleted. :warning: The bot owner hasn't configured a paste site so contents of deleted messages not shown. :warning:`,
-          color: '#FFAE42',
-        }]
-      });
+      if (!process.env.PASTE_SITE_ROOT_URL) {
+        if (!deletedMessages[0].guildId) return;
+
+        return send({
+          guildID: deletedMessages[0].guildId,
+          eventName: 'messageDeleteBulk',
+          embeds: [{
+            description: `${deletedMessages.length} messages were bulk deleted. :warning: The bot owner hasn't configured a paste site so contents of deleted messages not shown. :warning:`,
+            color: '#FFAE42',
+          }]
+        });
+      }
+
+      let messagesFromBatch = [];
+      let messagesToFetchFromDb = [];
+      for (const deletedMessage of deletedMessages) {
+        const messageFromBatch = getMessage(deletedMessage.id)
+        if (messageFromBatch === undefined) messagesToFetchFromDb.push(deletedMessage.id)
+        else messagesFromBatch.push(messageFromBatch)
+      }
+
+      const messagesFromDb = await getMessagesByIds(messagesToFetchFromDb)
+      await paste([...messagesFromBatch, ...messagesFromDb], deletedMessages[0].channel.guild.id)
     }
-
-
-    let messagesFromBatch = [];
-    let messagesToFetchFromDb = [];
-    for (const deletedMessage of deletedMessages) {
-      const messageFromBatch = getMessage(deletedMessage.id)
-      if (messageFromBatch === undefined) messagesToFetchFromDb.push(deletedMessage.id)
-      else messagesFromBatch.push(messageFromBatch)
-    }
-
-    const messagesFromDb = await getMessagesByIds(messagesToFetchFromDb)
-    await paste([...messagesFromBatch, ...messagesFromDb], deletedMessages[0].channel.guild.id)
   }
-}
 
 async function paste (messages, guildID) {
   if (!messages || messages.length === 0) return
