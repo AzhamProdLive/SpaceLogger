@@ -1,53 +1,65 @@
-const escape = require('markdown-escape')
-const { displayUser } = require('../utils/constants')
+const { displayUsername } = require('../utils/constants')
 
 module.exports = {
-  func: async message => {
+  name: 'serverinfo',
+  func: async interaction => {
+    const guild = global.bot.guilds.get(interaction.guildID)
+    if (!guild) {
+      global.logger.warn('Missing guild in serverinfo slash command')
+      return
+    }
     const fields = []
-    const owner = global.bot.users.get(message.channel.guild.ownerID)
+    let owner = global.bot.users.get(guild.ownerID)
+    if (!owner) {
+      try {
+        owner = await global.bot.getRESTUser(guild.ownerID)
+      } catch (_) {
+        global.logger.warn('Failure to find guild owner in serverinfo') // not fatal, no need to terminate
+      }
+    }
     const embed = {
-      description: `Information about ${message.channel.guild.name}`,
+      description: `Information about ${guild.name}`,
       color: 319403,
       fields: [{
         name: 'Name',
-        value: `**${message.channel.guild.name}** (${message.channel.guild.id})`
+        value: `**${guild.name}** (${guild.id})`
       }, {
         name: 'Verification Level',
-        value: `${message.channel.guild.verificationLevel}`
+        value: `${guild.verificationLevel}`
       }, {
         name: 'Owner',
-        value: `${owner ? `**${displayUser(owner)}** ` : ''}(${message.channel.guild.ownerID})`
+        value: `${owner ? `**${displayUsername(owner)}** ` : ''}(${guild.ownerID})`
       }, {
         name: 'Features',
-        value: message.channel.guild.features.length !== 0 ? message.channel.guild.features.join(', ') : 'No Guild Features'
+        value: guild.features.length !== 0 ? guild.features.join(', ') : 'No Guild Features'
       }, {
         name: 'Channels',
-        value: `**${message.channel.guild.channels.size}** total\n**${message.channel.guild.channels.filter(c => c.type === 0).length}** text\n**${message.channel.guild.channels.filter(c => c.type === 2).length}** voice\n**${message.channel.guild.channels.filter(c => c.type === 4).length}** categories`
+        value: `**${guild.channels.size}** total\n**${guild.channels.filter(c => c.type === 0).length}** text\n**${guild.channels.filter(c => c.type === 2).length}** voice\n**${guild.channels.filter(c => c.type === 4).length}** categories`
       }, {
-        name: 'Region',
-        value: `**${message.channel.guild.region}**`
+        name: 'Boost Count',
+        value: `**${guild.premiumSubscriptionCount >= 0 ? guild.premiumSubscriptionCount : 'Unavailable'}**`
       }, {
         name: 'Role Count',
-        value: `${message.channel.guild.roles.size}`
+        value: `${guild.roles.size}`
       }]
     }
-    if (message.channel.guild.iconURL) {
+    if (guild.iconURL) {
       embed.thumbnail = {
-        url: message.channel.guild.iconURL
+        url: guild.iconURL
       }
     }
-    if (message.channel.guild.emojis.length === 0) {
+    if (guild.emojis.length === 0) {
       fields.push({
         name: 'Emojis',
         value: 'None'
       })
-      await message.channel.createMessage({ embeds: [embed] })
+      interaction.createMessage({ embed }).catch(() => {})
     } else {
       const emojiObj = {
         0: []
       }
       let counter = 0 // Dynamically create embed fields based on character count
-      message.channel.guild.emojis.forEach(emoji => {
+      guild.emojis.forEach(emoji => {
         if (emojiObj[counter].join('\n').length < 950) {
           if (!emoji.available) return
           emojiObj[counter].push(`<${emoji.animated ? 'a' : ''}:${emoji.name}:${emoji.id}> ${escape(emoji.name)} ${emoji.roles.length !== 0 ? '<- 🔒 role restricted' : ''}`)
@@ -74,16 +86,15 @@ module.exports = {
         if (emojiFields[i + 3]) emojiFieldsToUse.push(emojiFields[i + 3])
         if (i === 0) {
           embed.fields = embed.fields.concat(emojiFieldsToUse)
-          await message.channel.createMessage({ embeds: [embed] })
+          interaction.createMessage({ embeds: [embed] }).catch(e => {
+            global.logger.error('Failure to send a legal serverinfo embed', e)
+          })
         } else {
-          await message.channel.createMessage({ embeds: [{ description: 'Emojis continued', fields: emojiFieldsToUse }] })
+          interaction.createMessage({ embeds: [{ description: 'Emojis continued', fields: emojiFieldsToUse }] }).catch(e => {
+            global.logger.error('Failure to send serverinfo emoji continuation embed', e)
+          })
         }
       }
     }
-  },
-  name: 'serverinfo',
-  quickHelp: 'Use to get information about the current server (emojis, owner, member count, etc)',
-  examples: `\`${process.env.GLOBAL_BOT_PREFIX}serverinfo\``,
-  type: 'any',
-  category: 'Utility'
+  }
 }
