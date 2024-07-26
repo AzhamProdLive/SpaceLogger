@@ -1,5 +1,14 @@
 const send = require('../modules/webhooksender')
-const { displayUser, CHANNEL_TYPE_MAP } = require ('../utils/constants')
+const { displayUsername } = require('../utils/constants')
+
+const CHANNEL_TYPE_MAP = {
+  0: 'Text channel',
+  2: 'Voice channel',
+  4: 'Category channel',
+  5: 'Announcement channel',
+  13: 'Stage channel',
+  15: 'Forum channel'
+}
 
 module.exports = {
   name: 'channelCreate',
@@ -14,7 +23,7 @@ module.exports = {
           name: 'Unknown User',
           icon_url: 'https://logger.bot/staticfiles/red-x.png'
         },
-        description: `${CHANNEL_TYPE_MAP[newChannel.type] || 'Unsupported channel type'} created <#${newChannel.id}>`,
+        description: `${CHANNEL_TYPE_MAP[newChannel.type] ? CHANNEL_TYPE_MAP[newChannel.type] : 'Unsupported channel type'} created <#${newChannel.id}>`,
         fields: [{
           name: 'Name',
           value: newChannel.name
@@ -45,7 +54,7 @@ module.exports = {
     if (user && user?.bot && !global.bot.guildSettingsCache[newChannel.guild.id].isLogBots()) return
     if (user) {
       const member = newChannel.guild.members.get(user.id)
-      channelCreateEvent.embeds[0].author.name = `${displayUser(user)} ${member && member.nick ? `(${member.nick})` : ''}`
+      channelCreateEvent.embeds[0].author.name = `${displayUsername(user)} ${member && member.nick ? `(${member.nick})` : ''}`
       channelCreateEvent.embeds[0].author.icon_url = user.avatarURL
       channelCreateEvent.embeds[0].fields[1].value = `\`\`\`ini\nUser = ${user.id}\nChannel = ${newChannel.id}\`\`\``
     }
