@@ -1,32 +1,32 @@
-const { displayUser } = require('../utils/constants')
+const { displayUsername } = require("../utils/constants")
 
 module.exports = {
   func: async message => {
     await message.channel.createMessage({
       embeds: [{
         title: 'Configuration dashboard',
-        description: `Hey, I'm ${global.bot.user.username}! My **only** purpose is to, at your command, log everything to your configured channels. Click "configuration dashboard" to login to my dashboard and configure me!`,
+        description: `Hey, I'm ${global.bot.user.username}! My **only** purpose is to, at your command, log everything to your configured channels. Use the slash commands to configure me! For more info, use \`/help\``,
         color: 3553599,
         timestamp: new Date(),
         footer: {
           icon_url: global.bot.user.avatarURL,
-          text: displayUser(global.bot.user)
+          text: displayUsername(global.bot.user)
         },
         thumbnail: {
           url: global.bot.user.avatarURL
         },
         author: {
-          name: displayUser(message.author),
+          name: displayUsername(message.author),
           icon_url: message.author.avatarURL
         },
         fields: [
           {
             name: 'Technical Details',
-            value: `${displayUser(global.bot.user)} is written in JavaScript utilizing the Node.js runtime. It uses the [eris](https://github.com/abalabahaha/eris) library to interact with the Discord API. PostgreSQL and Redis are used. The code OSS is available at https://github.com/azhamprodlive/spacelogger`
+            value: `${global.bot.user.username} is written in JavaScript utilizing the Node.js runtime. It uses the [eris](https://github.com/abalabahaha/eris) library to interact with the Discord API. PostgreSQL and Redis are used. I am OSS at https://github.com/tizzysaurus/logger`
           },
           {
             name: 'The Author',
-            value: 'SpaceLogger is developed and maintained by [AzhamMakesTrash](https://github.com/azhamprodlive). SpaceLogger is a fork of [Logger](https://github.com/curtisf/logger). You can contact AzhamMakesTrash via his linked socials on github.'
+            value: `${global.bot.user.username} is a fork of [Logger](https://github.com/curtisf/logger), developed and maintained by \`@${process.env.BOT_CREATOR_NAME}\`.`
           },
           {
             name: 'Shard Info',
@@ -34,7 +34,7 @@ module.exports = {
           },
           {
             name: 'Privacy Policy',
-            value: 'You can view the original privacy policy [here](https://gist.github.com/curtisf/0598b0930c11363d24e29300cf21d572). For up-to-date privacy information, you can contact me via my email address (available on Github).'
+            value: `For up-to-date privacy information, please contact \`@${process.env.BOT_CREATOR_NAME}\`.`
           }
         ]
       }]
