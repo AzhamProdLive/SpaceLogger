@@ -1,5 +1,5 @@
 const send = require('../modules/webhooksender')
-const { displayUser } = require('../utils/constants')
+const { displayUsername } = require('../utils/constants')
 
 module.exports = {
   name: 'voiceStateUpdate',
@@ -15,10 +15,10 @@ module.exports = {
       eventName: 'voiceStateUpdate',
       embeds: [{
         author: {
-          name: `${displayUser(member)} ${member.nick ? `(${member.nick})` : ''}`,
+          name: `${displayUsername(member)} ${member.nick ? `(${member.nick})` : ''}`,
           icon_url: member.avatarURL
         },
-        description: `**${displayUser(member)} ${member.nick ? `(${member.nick})` : ''} had their voice state updated.`,
+        description: `**${displayUsername(member)}** ${member.nick ? `(${member.nick})` : ''} had their voice state updated.`,
         fields: [{
           name: 'Voice Channel',
           value: `<#${channel.id}> (${channel.name})`
@@ -34,18 +34,18 @@ module.exports = {
     if (!logs) return
     const log = logs.entries.find(e => e.targetID === member.id && (Date.now() - ((e.id / 4194304) + 1420070400000) < 3000))
     if (!log) return
-    const user = log.user
+    const perp = log.user
     const actionName = Object.keys(log.before)[0]
     if (!actionName) return
     voiceStateUpdateEvent.embeds[0].fields.unshift({
       name: 'Action',
       value: `${log.before[actionName] ? 'un' : 'now '}${actionName}` || 'Unknown'
     })
-    if (user && user.id && user.username) {
-      voiceStateUpdateEvent.embeds[0].fields[voiceStateUpdateEvent.embeds[0].fields.length - 1].value += `Perpetrator = ${user.id}\`\`\``
+    if (perp && perp.id && perp.username) {
+      voiceStateUpdateEvent.embeds[0].fields[voiceStateUpdateEvent.embeds[0].fields.length - 1].value += `Perpetrator = ${perp.id}\`\`\``
       voiceStateUpdateEvent.embeds[0].footer = {
-        text: `${displayUser(user)}`,
-        icon_url: user.avatarURL
+        text: displayUsername(perp),
+        icon_url: perp.avatarURL
       }
     }
     await send(voiceStateUpdateEvent)
