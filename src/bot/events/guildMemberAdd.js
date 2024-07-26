@@ -1,6 +1,6 @@
 const send = require('../modules/webhooksender')
 const inviteCache = require('../modules/invitecache')
-const { displayUser } = require('../utils/constants')
+const { displayUsername } = require('../utils/constants')
 
 module.exports = {
   name: 'guildMemberAdd',
@@ -11,13 +11,13 @@ module.exports = {
       eventName: 'guildMemberAdd',
       embeds: [{
         author: {
-          name: `${displayUser(member)}`,
+          name: displayUsername(member),
           icon_url: member.avatarURL
         },
         description: `<@${member.id}> joined `,
         fields: [{
           name: 'Name',
-          value: `${displayUser(member)} (${member.id}) ${member.mention}`
+          value: `${displayUsername(member)} (${member.id}) ${member.mention}`
         }, {
           name: 'Joined At',
           value: `<t:${Math.round(Date.now() / 1000)}:F>`
@@ -26,11 +26,11 @@ module.exports = {
           value: `**${Math.floor((new Date() - member.user.createdAt) / 86400000)}** days`,
           inline: true
         },
-        {
-          name: 'Member Count',
-          value: guild.memberCount.toLocaleString(),
-          inline: true
-        }],
+          {
+            name: 'Member Count',
+            value: guild.memberCount.toLocaleString(),
+            inline: true
+          }],
         color: 65280
       }]
     }
@@ -45,7 +45,7 @@ module.exports = {
         const cachedInvites = await inviteCache.getCachedInvites(guild.id)
         let usedInvite
         if (guildInvites.length > cachedInvites.length) {
-        // invite desync between redis and Discord, fix it
+          // invite desync between redis and Discord, fix it
           await inviteCache.cacheInvitesWhole(guild.id, guildInvites)
         } else {
           usedInvite = compareInvites(guildInvites, cachedInvites)
@@ -75,7 +75,7 @@ module.exports = {
         await inviteCache.cacheInvitesWhole(guild.id, guildInvites)
       } catch (_) {
         console.error(_)
-      // They're denying the bot the permissions it needs.
+        // They're denying the bot the permissions it needs.
       }
     }
     GMAEvent.embeds[0].fields.push({

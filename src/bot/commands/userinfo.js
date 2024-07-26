@@ -1,4 +1,4 @@
-const { EMBED_COLORS, displayUsername } = require('../utils/constants')
+const { displayUsername } = require("../utils/constants")
 
 const notablePermissions = [
   'kickMembers',
@@ -14,31 +14,18 @@ const notablePermissions = [
 ]
 
 module.exports = {
-  name: 'userinfo',
-  func: async interaction => {
+  func: async message => {
+    let member = message.member
+    if (message.mentions.length !== 0) member = message.channel.guild.members.get(message.mentions[0].id)
+    const fields = []
     const perms = []
-    const guild = global.bot.guilds.get(interaction.guildID)
-    if (!guild) {
-      global.logger.warn('Missing guild in userinfo slash command')
-      return
-    }
-    let member = interaction.member
-    const userInteractionOpt = interaction.data.options?.find(o => o.name === 'user')
-    if (userInteractionOpt) {
-      if (!interaction.data.resolved.members.get(userInteractionOpt.value)) {
-        global.logger.warn('Missing resolved member for userinfo in slash command')
-        return
-      }
-      member = interaction.data.resolved.members.get(userInteractionOpt.value)
-    }
-
     Object.keys(member.permissions.json).forEach((perm) => {
       if (member.permissions.json[perm] === true && notablePermissions.indexOf(perm) !== -1) {
         perms.push(`\`${perm}\``)
       }
     })
-    const roles = member.roles.map(r => guild.roles.get(r)).sort((a, b) => b.position - a.position)
-    const fields = [{
+    const roles = member.roles.map(r => message.channel.guild.roles.get(r)).sort((a, b) => b.position - a.position)
+    fields.push({
       name: 'Name',
       value: `${displayUsername(member)} ${member.nick ? `(**${member.nick}**)` : ''} (${member.id})`
     }, {
@@ -53,15 +40,22 @@ module.exports = {
     }, {
       name: 'Notable Permissions',
       value: perms.length !== 0 ? perms.join(', ') : 'None'
-    }]
-    interaction.createMessage({
+    })
+    message.channel.createMessage({
       embeds: [{
-        color: roles.length !== 0 ? roles[0].color : EMBED_COLORS.PURPLED_BLUE,
+        timestamp: new Date(message.timestamp),
+        color: roles.length !== 0 ? roles[0].color : 3553599,
         thumbnail: {
-          url: member.user.dynamicAvatarURL(null, 64)
+          url: member.avatar ? member.avatarURL : `https://cdn.discordapp.com/embed/avatars/${member.discriminator % 5}.png`
         },
         fields: fields
       }]
     }).catch(() => { })
-  }
+  },
+  name: 'userinfo',
+  quickHelp: 'Use this with a mention to get info about a user or about yourself with no mention.', // The restriction of using a mention is very intentional.
+  examples: `\`${process.env.GLOBAL_BOT_PREFIX}userinfo\` <- create an embed showing information about you
+  \`${process.env.GLOBAL_BOT_PREFIX}userinfo @AnyUser\` <- create an embed showing information about the user that was mentioned`,
+  type: 'any',
+  category: 'General'
 }
