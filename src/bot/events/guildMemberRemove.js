@@ -1,6 +1,7 @@
 const send = require('../modules/webhooksender')
+const prunecache = require('../modules/prunecache')
 const { User } = require('eris')
-const { displayUser } = require('../utils/constants')
+const { displayUsername } = require('../utils/constants')
 
 module.exports = {
   name: 'guildMemberRemove',
@@ -36,17 +37,17 @@ module.exports = {
       event.eventName = 'guildMemberKick'
       event.embeds = [{
         author: {
-          name: `${displayUser(member)} ${member.nick ? `(${member.nick})` : ''}`,
+          name: `${displayUsername(member)} ${member.nick ? `(${member.nick})` : ''}`,
           icon_url: member.avatarURL
         },
         color: 16711680,
-        description: `${displayUser(member)} ${member.nick ? `(${member.nick})` : ''} was kicked`,
+        description: `${displayUsername(member)} ${member.nick ? `(${member.nick})` : ''} was kicked`,
         fields: [{
           name: 'User Information',
-          value: `${displayUser(member)} (${member.id}) ${member.mention} ${member.bot ? '\nIs a bot' : ''}`
+          value: `${displayUsername(member)} (${member.id}) ${member.mention} ${member.bot ? '\nIs a bot' : ''}`
         }],
         footer: {
-          text: `${displayUser(user)}`,
+          text: displayUsername(user),
           icon_url: user.avatarURL
         }
       }]
@@ -71,14 +72,14 @@ module.exports = {
       // TODO: redo purge audit log stuff eventually (update: copy from patron bot eventually)
       event.embeds = [{
         author: {
-          name: `${displayUser(member)}`,
+          name: displayUsername(member),
           icon_url: member.avatarURL
         },
         color: 16711680,
-        description: `${displayUser(member)} left the server`,
+        description: `${displayUsername(member)} left the server`,
         fields: [{
           name: 'User Information',
-          value: `${displayUser(member)} (${member.id}) ${member.mention} ${member.bot ? '\nIs a bot' : ''}`
+          value: `${displayUsername(member)} (${member.id}) ${member.mention} ${member.bot ? '\nIs a bot' : ''}`
         }]
       }]
       if (member.roles) {

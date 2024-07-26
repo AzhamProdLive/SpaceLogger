@@ -1,5 +1,14 @@
 const send = require('../modules/webhooksender')
-const { displayUser, CHANNEL_TYPE_MAP } = require ('../utils/constants')
+const { displayUsername } = require('../utils/constants')
+
+const CHANNEL_TYPE_MAP = {
+  0: 'Text channel',
+  2: 'Voice channel',
+  4: 'Category',
+  5: 'Announcement',
+  13: 'Stage Channel',
+  15: 'Forum channel'
+}
 
 module.exports = {
   name: 'channelDelete',
@@ -14,7 +23,7 @@ module.exports = {
           name: 'Unknown User',
           icon_url: 'https://logger.bot/staticfiles/red-x.png'
         },
-        description: `${CHANNEL_TYPE_MAP[channel.type] || 'Unsupported channel type'} deleted (${channel.name})`,
+        description: `${CHANNEL_TYPE_MAP[channel.type] ? CHANNEL_TYPE_MAP[channel.type] : 'Unsupported channel type'} deleted (${channel.name})`,
         fields: [{
           name: 'Name',
           value: channel.name
@@ -22,13 +31,13 @@ module.exports = {
           name: 'Creation date',
           value: `<t:${Math.round(((channel.id / 4194304) + 1420070400000) / 1000)}:F>`
         },
-        {
-          name: 'Position',
-          value: channel.position
-        }, {
-          name: 'ID',
-          value: `\`\`\`ini\nUser = Unknown\nChannel = ${channel.id}\`\`\``
-        }],
+          {
+            name: 'Position',
+            value: channel.position
+          }, {
+            name: 'ID',
+            value: `\`\`\`ini\nUser = Unknown\nChannel = ${channel.id}\`\`\``
+          }],
         color: 3553599
       }]
     }
@@ -38,7 +47,7 @@ module.exports = {
       const user = global.bot.users.get(lastCachedMessage.userID)
       channelDeleteEvent.embeds[0].fields.push({
         name: 'Last message',
-        value: `Author: **${displayUser(user)}**\n${lastCachedMessage.content}`
+        value: `Author: **${displayUsername(user)}**\n${lastCachedMessage.content}`
       })
     }
     if (channel.permissionOverwrites.size !== 0) {
@@ -61,7 +70,7 @@ module.exports = {
       if (user && user?.bot && !global.bot.guildSettingsCache[channel.guild.id].isLogBots()) return
       if (user) {
         const member = channel.guild.members.get(user.id)
-        channelDeleteEvent.embeds[0].author.name = `${displayUser(user)} ${member && member.nick ? `(${member.nick})` : ''}`
+        channelDeleteEvent.embeds[0].author.name = `${displayUsername(user)} ${member && member.nick ? `(${member.nick})` : ''}`
         channelDeleteEvent.embeds[0].author.icon_url = user.avatarURL
         channelDeleteEvent.embeds[0].fields[3].value = `\`\`\`ini\nUser = ${user.id}\nChannel = ${channel.id}\`\`\``
       }
