@@ -10,7 +10,7 @@ const { displayUser } = require('../utils/constants')
     handle: async deletedMessages => {
       if (deletedMessages.length === 0) return // TODO: TEST!
 
-      if (!process.env.PASTE_SITE_ROOT_URL) {
+      if (!process.env.PASTE_CREATE_ENDPOINT) {
         if (!deletedMessages[0].guildId) return;
 
         return send({
