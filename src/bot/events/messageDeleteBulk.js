@@ -61,15 +61,15 @@ async function paste (messages, guildID) {
   }).join('\r\n')
   if (pasteString) {
     sa
-      .post(`${process.env.PASTE_SITE_ROOT_URL.endsWith("/") ? process.env.PASTE_SITE_ROOT_URL.slice(0, -1) : process.env.PASTE_SITE_ROOT_URL}/documents`)
-      .set('Authorization', process.env.PASTE_SITE_TOKEN ?? '')
+      .post(`${process.env.PASTE_CREATE_ENDPOINT.endsWith("/") ? process.env.PASTE_CREATE_ENDPOINT.slice(0, -1) : process.env.PASTE_CREATE_ENDPOINT}/documents`)
+      .set('Authorization', process.env.PASTE_CREATE_TOKEN ?? '')
       .set('Content-Type', 'text/plain')
       .send(pasteString || 'An error has occurred while fetching pastes. Please contact the bot author.')
       .end((err, res) => {
         if (!err && res.body && res.statusCode === 200 && res.body.key) {
           messageDeleteBulkEvent.embeds[0].fields.push({
             name: 'Link',
-            value: `${process.env.PASTE_SITE_ROOT_URL.endsWith("/") ? process.env.PASTE_SITE_ROOT_URL.slice(0, -1) : process.env.PASTE_SITE_ROOT_URL}/${res.body.key}.txt`
+            value: `${process.env.PASTE_CREATE_ENDPOINT.endsWith("/") ? process.env.PASTE_CREATE_ENDPOINT.slice(0, -1) : process.env.PASTE_CREATE_ENDPOINT}/${res.body.key}.txt`
           })
           send(messageDeleteBulkEvent)
         } else {
