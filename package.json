@@ -19,7 +19,7 @@
   "author": "Curtis Fowler",
   "license": "AGPL-3.0-or-later",
   "dependencies": {
-    "@sentry/node": "^7.80.1",
+    "@sentry/node": "^7.119.0",
     "aes256": "^1.1.0",
     "chalk": "^4.1.2",
     "dotenv": "^16.3.1",
