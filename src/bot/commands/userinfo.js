@@ -1,4 +1,4 @@
-const { displayUsername } = require("../utils/constants")
+const { displayUser } = require("../utils/constants")
 
 const notablePermissions = [
   'kickMembers',
@@ -27,7 +27,7 @@ module.exports = {
     const roles = member.roles.map(r => message.channel.guild.roles.get(r)).sort((a, b) => b.position - a.position)
     fields.push({
       name: 'Name',
-      value: `${displayUsername(member)} ${member.nick ? `(**${member.nick}**)` : ''} (${member.id})`
+      value: `${displayUser(member)} ${member.nick ? `(**${member.nick}**)` : ''} (${member.id})`
     }, {
       name: 'Join Date',
       value: `<t:${Math.round(member.joinedAt / 1000)}:F> (<t:${Math.round(member.joinedAt / 1000)}:R>)`
