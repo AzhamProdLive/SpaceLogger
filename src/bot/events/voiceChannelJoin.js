@@ -1,5 +1,5 @@
 const send = require('../modules/webhooksender')
-const { displayUsername } = require('../utils/constants')
+const { displayUser } = require('../utils/constants')
 
 module.exports = {
   name: 'voiceChannelJoin',
@@ -11,10 +11,10 @@ module.exports = {
       eventName: 'voiceChannelJoin',
       embeds: [{
         author: {
-          name: `${displayUsername(member)} ${member.nick ? `(${member.nick})` : ''}`,
+          name: `${displayUser(member)} ${member.nick ? `(${member.nick})` : ''}`,
           icon_url: member.avatarURL
         },
-        description: `**${displayUsername(member)}** joined ${channel.type !== 13 ? 'voice' : 'stage'} channel: ${channel.name}.`,
+        description: `**${displayUser(member)}** joined ${channel.type !== 13 ? 'voice' : 'stage'} channel: ${channel.name}.`,
         fields: [{
           name: 'Channel',
           value: `<#${channel.id}> (${channel.name})`
