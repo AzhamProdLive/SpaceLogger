@@ -1,5 +1,6 @@
-const { displayUser, ALL_EVENTS: eventList } = require('../utils/constants')
-const { disableEvent } = require('../../db/interfaces/postgres/update')
+const disableEvent = require('../../db/interfaces/postgres/update').disableEvent
+const { displayUsername } = require('../utils/constants')
+const eventList = require('../utils/constants').ALL_EVENTS
 
 module.exports = {
   func: async (message, suffix) => {
@@ -12,10 +13,10 @@ module.exports = {
           timestamp: new Date(),
           footer: {
             icon_url: global.bot.user.avatarURL,
-            text: displayUser(global.bot.user)
+            text: displayUsername(global.bot.user)
           },
           author: {
-            name: displayUser(message.author),
+            name: displayUsername(message.author),
             icon_url: message.author.avatarURL
           }
         }]
@@ -30,10 +31,10 @@ module.exports = {
         timestamp: new Date(),
         footer: {
           icon_url: global.bot.user.avatarURL,
-          text: displayUser(global.bot.user)
+          text: displayUsername(global.bot.user)
         },
         author: {
-          name: displayUser(message.author),
+          name: displayUsername(message.author),
           icon_url: message.author.avatarURL
         }
       }]
