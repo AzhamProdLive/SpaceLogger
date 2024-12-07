@@ -1,5 +1,5 @@
 const send = require('../modules/webhooksender')
-const { displayUsername } = require('../utils/constants')
+const { displayUser } = require('../utils/constants')
 
 const CHANNEL_TYPE_MAP = {
   0: 'Text channel',
@@ -47,7 +47,7 @@ module.exports = {
       const user = global.bot.users.get(lastCachedMessage.userID)
       channelDeleteEvent.embeds[0].fields.push({
         name: 'Last message',
-        value: `Author: **${displayUsername(user)}**\n${lastCachedMessage.content}`
+        value: `Author: **${displayUser(user)}**\n${lastCachedMessage.content}`
       })
     }
     if (channel.permissionOverwrites.size !== 0) {
@@ -70,7 +70,7 @@ module.exports = {
       if (user && user?.bot && !global.bot.guildSettingsCache[channel.guild.id].isLogBots()) return
       if (user) {
         const member = channel.guild.members.get(user.id)
-        channelDeleteEvent.embeds[0].author.name = `${displayUsername(user)} ${member && member.nick ? `(${member.nick})` : ''}`
+        channelDeleteEvent.embeds[0].author.name = `${displayUser(user)} ${member && member.nick ? `(${member.nick})` : ''}`
         channelDeleteEvent.embeds[0].author.icon_url = user.avatarURL
         channelDeleteEvent.embeds[0].fields[3].value = `\`\`\`ini\nUser = ${user.id}\nChannel = ${channel.id}\`\`\``
       }
