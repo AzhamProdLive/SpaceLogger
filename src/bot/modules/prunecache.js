@@ -1,5 +1,5 @@
 const send = require('../modules/webhooksender')
-const { displayUsername } = require('../utils/constants')
+const { displayUser } = require('../utils/constants')
 const request = require('superagent')
 
 module.exports = {
@@ -16,7 +16,7 @@ module.exports = {
         this.send(logID)
       }, 10000)
     }
-    this.cache[logID].list += `\n${displayUsername(member)} (${member.id})`
+    this.cache[logID].list += `\n${displayUser(member)} (${member.id})`
     this.cache[logID].count++
   },
   async send (logID) {
