@@ -1,5 +1,5 @@
 const send = require('../modules/webhooksender')
-const { displayUsername } = require('../utils/constants')
+const { displayUser } = require('../utils/constants')
 
 const CHANNEL_TYPE_MAP = {
   0: 'Text channel',
@@ -54,7 +54,7 @@ module.exports = {
     if (user && user?.bot && !global.bot.guildSettingsCache[newChannel.guild.id].isLogBots()) return
     if (user) {
       const member = newChannel.guild.members.get(user.id)
-      channelCreateEvent.embeds[0].author.name = `${displayUsername(user)} ${member && member.nick ? `(${member.nick})` : ''}`
+      channelCreateEvent.embeds[0].author.name = `${displayUser(user)} ${member && member.nick ? `(${member.nick})` : ''}`
       channelCreateEvent.embeds[0].author.icon_url = user.avatarURL
       channelCreateEvent.embeds[0].fields[1].value = `\`\`\`ini\nUser = ${user.id}\nChannel = ${newChannel.id}\`\`\``
     }
