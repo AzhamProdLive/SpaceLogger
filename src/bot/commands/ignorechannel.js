@@ -1,4 +1,4 @@
-const { displayUsername } = require('../utils/constants')
+const { displayUser } = require('../utils/constants')
 
 const ignoreChannel = require('../../db/interfaces/postgres/update').ignoreChannel
 
@@ -19,10 +19,10 @@ module.exports = {
         timestamp: new Date(),
         footer: {
           icon_url: global.bot.user.avatarURL,
-          text: displayUsername(global.bot.user)
+          text: displayUser(global.bot.user)
         },
         author: {
-          name: displayUsername(message.author),
+          name: displayUser(message.author),
           icon_url: message.author.avatarURL
         }
       }]
