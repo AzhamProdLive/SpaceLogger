@@ -1,6 +1,6 @@
 const clearEventByID = require('../../db/interfaces/postgres/update').clearEventByID
 const cacheGuild = require('../utils/cacheGuild')
-const { displayUsername } = require('../utils/constants')
+const { displayUser } = require('../utils/constants')
 const setEventLogs = require('../../db/interfaces/postgres/update').setEventsLogId
 const eventList = require('../utils/constants').ALL_EVENTS
 
@@ -28,10 +28,10 @@ module.exports = {
           timestamp: new Date(),
           footer: {
             icon_url: global.bot.user.avatarURL,
-            text: displayUsername(global.bot.user)
+            text: displayUser(global.bot.user)
           },
           author: {
-            name: displayUsername(message.author),
+            name: displayUser(message.author),
             icon_url: message.author.avatarURL
           },
           fields: []
