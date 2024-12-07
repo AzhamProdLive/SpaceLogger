@@ -132,7 +132,7 @@ exports.chunkify = (toChunk, maxCharacters = 1000) => {
  * @param {import("eris").Member | import("eris").User}) user
  * @returns {string}
  */
-exports.displayUser = (user) => `${user.username}${user.discriminator !== "0" ? `#${user.discriminator}` : ""}`;
+exports.displayUsername = (user) => `${user.username}${user.discriminator !== "0" ? `#${user.discriminator}` : ""}`;
 
 // All channel types from: https://discord.com/developers/docs/resources/channel#channel-object-channel-types
 // Used for the channel* events.
