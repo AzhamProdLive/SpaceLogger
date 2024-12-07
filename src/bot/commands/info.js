@@ -1,4 +1,4 @@
-const { displayUsername } = require("../utils/constants")
+const { displayUser } = require("../utils/constants")
 
 module.exports = {
   func: async message => {
@@ -10,13 +10,13 @@ module.exports = {
         timestamp: new Date(),
         footer: {
           icon_url: global.bot.user.avatarURL,
-          text: displayUsername(global.bot.user)
+          text: displayUser(global.bot.user)
         },
         thumbnail: {
           url: global.bot.user.avatarURL
         },
         author: {
-          name: displayUsername(message.author),
+          name: displayUser(message.author),
           icon_url: message.author.avatarURL
         },
         fields: [
