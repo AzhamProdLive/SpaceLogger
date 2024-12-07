@@ -28,7 +28,7 @@
     "markdown-escape": "^2.0.0",
     "moment-timezone": "^0.5.43",
     "os-utils": "0.0.14",
-    "pg": "^8.11.3",
+    "pg": "^8.13.0",
     "pg-format": "^1.0.4",
     "redis": "^4.6.15",
     "redlock": "^4.2.0",
