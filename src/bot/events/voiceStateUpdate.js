@@ -1,5 +1,5 @@
 const send = require('../modules/webhooksender')
-const { displayUsername } = require('../utils/constants')
+const { displayUser } = require('../utils/constants')
 
 module.exports = {
   name: 'voiceStateUpdate',
@@ -15,10 +15,10 @@ module.exports = {
       eventName: 'voiceStateUpdate',
       embeds: [{
         author: {
-          name: `${displayUsername(member)} ${member.nick ? `(${member.nick})` : ''}`,
+          name: `${displayUser(member)} ${member.nick ? `(${member.nick})` : ''}`,
           icon_url: member.avatarURL
         },
-        description: `**${displayUsername(member)}** ${member.nick ? `(${member.nick})` : ''} had their voice state updated.`,
+        description: `**${displayUser(member)}** ${member.nick ? `(${member.nick})` : ''} had their voice state updated.`,
         fields: [{
           name: 'Voice Channel',
           value: `<#${channel.id}> (${channel.name})`
@@ -44,7 +44,7 @@ module.exports = {
     if (perp && perp.id && perp.username) {
       voiceStateUpdateEvent.embeds[0].fields[voiceStateUpdateEvent.embeds[0].fields.length - 1].value += `Perpetrator = ${perp.id}\`\`\``
       voiceStateUpdateEvent.embeds[0].footer = {
-        text: displayUsername(perp),
+        text: displayUser(perp),
         icon_url: perp.avatarURL
       }
     }
