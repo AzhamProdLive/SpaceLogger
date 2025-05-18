@@ -26,7 +26,7 @@
     "eris": "0.18.0",
     "ioredis": "^5.3.2",
     "markdown-escape": "^2.0.0",
-    "moment-timezone": "^0.5.46",
+    "moment-timezone": "^0.5.48",
     "os-utils": "0.0.14",
     "pg": "^8.13.0",
     "pg-format": "^1.0.4",
