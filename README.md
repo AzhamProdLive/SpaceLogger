@@ -2,6 +2,8 @@ SpaceLogger v2 is a powerful [Discord](https://discordapp.com) bot forked from L
 - This fork includes some improvements and features the main repo doesn't have.
 > - Image/File logs for `messageUpdate`, `messageDelete`, `messageBulkDelete` events.
 
+Upstream repository for this fork is https://git.azhamspacestation.com/azhammakestrash/SpaceLogger
+
 ## Installation (PLEASE CHECK THE MAIN REPO FOR THE INSTRUCTIONS, AS THIS REPO HAS BEEN MODIFIED TO FIT MY OWN NEEDS)
 
 - [PostgreSQL](https://www.postgresql.org/download/)
