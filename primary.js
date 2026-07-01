@@ -1,6 +1,7 @@
 const cluster = require('cluster')
 const { get } = require('superagent')
 const addListeners = require('./src/miscellaneous/workerlistener')
+const messageCleanup = require('./src/miscellaneous/messageCleanup')
 
 require('dotenv').config()
 
@@ -8,6 +9,9 @@ const staggerLaunchQueue = []
 let staggerInterval
 
 async function init() {
+  // Start the message cleanup scheduler
+  messageCleanup.startCleanupScheduler()
+
   get('https://discord.com/api/gateway/bot')
       .set('Authorization', `Bot ${process.env.BOT_TOKEN}`)
       .then(async b => {
