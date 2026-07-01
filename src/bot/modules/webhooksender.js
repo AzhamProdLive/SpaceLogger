@@ -94,6 +94,8 @@ module.exports = async (pkg) => {
           roles: false,
           users: false
         }
+      }).then(() => {
+	console.log(`webhook check`);
       }).catch(async e => {
         if (e && e.message && (e.message.includes('Request timed out') || e.message.includes('503 Service Temporarily') || e.message.includes('Internal Server Error'))) return
         if (e && e.code && !(e.code == '50035' || e.code == '10015' || e.code == '500' || e.code == '503' || (e && e.message && e.message.includes('Internal Server Error')))) {
@@ -105,6 +107,7 @@ module.exports = async (pkg) => {
           return await guildWebhookCacher(pkg.guildID, guildSettings.getEventByName(pkg.eventName))
         } else {
           global.logger.error('Error while sending a message over webhook!', e, pkg, pkg.embeds[0].fields)
+	  console.log(`webhook check error`)
         }
       })
     } else {

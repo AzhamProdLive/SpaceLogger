@@ -2,7 +2,7 @@ const send = require('../modules/webhooksender')
 const updateMessageByID = require('../../db/interfaces/postgres/update').updateMessageByID
 const getMessageFromDB = require('../../db/interfaces/postgres/read').getMessageById
 const getMessageFromBatch = require('../../db/messageBatcher').getMessage
-const { displayUsername } = require('../utils/constants')
+const { displayUser } = require('../utils/constants')
 const escape = require('markdown-escape')
 
 // markdown-escape is a single exported function, I probably don't need it as a node module lol
@@ -29,10 +29,10 @@ module.exports = {
         eventName: 'messageUpdate',
         embeds: [{
           author: {
-            name: `${displayUsername(newMessage.author)} ${member && member.nick ? `(${member.nick})` : ''}`,
+            name: `${displayUser(newMessage.author)} ${member && member.nick ? `(${member.nick})` : ''}`,
             icon_url: newMessage.author.avatarURL
           },
-          description: `**${displayUsername(newMessage.author)}** ${member && member.nick ? `(${member.nick})` : ''} updated their message in: ${newMessage.channel.name}.`,
+          description: `**${displayUser(newMessage.author)}** ${member && member.nick ? `(${member.nick})` : ''} updated their message in: ${newMessage.channel.name}.`,
           fields: [
             {
               name: `${newMessage.channel.type === 10 || newMessage.channel.type === 11 || newMessage.channel.type === 12 ? 'Thread' : 'Channel'}`,
